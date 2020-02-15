@@ -226,6 +226,12 @@ namespace Mappet
         static void Main(string[] args)
         {
             //ParseConfig();
+            if(args.Length < 5)
+            {
+                Console.WriteLine("mappet.exe <map a> <map b> <output map> -c \"<command>\"");
+                Console.WriteLine("Example: MINE1.txt MINE3.txt flip.txt -c \"0: a2, 1:a1, 2: a0\"");
+                Environment.Exit(-1);
+            }
             var mapA = ParseMap(args[0]);
             var mapB = ParseMap(args[1]);
 
@@ -321,9 +327,9 @@ namespace Mappet
                     outputMap.objects.Add(mapObject);
                 }
             }
-
-            SaveMap(outputMap, args[2]);
             Console.WriteLine($"Saving output to {args[2]}");
+            SaveMap(outputMap, args[2]);
+            Console.WriteLine("Done! Press any key to end.");
             Console.ReadKey();
         }
     }
