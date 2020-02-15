@@ -1,0 +1,36 @@
+name: Build
+
+on:
+ push:
+  paths:
+  - '.github/workflows/Build.yml'
+  - '*.sln'
+  - '*.csproj'
+  - '**.cs'
+  - 'App.config'
+ pull_request:
+
+jobs:
+
+ Mappet:
+  runs-on: windows-latest
+
+  steps:
+
+  - name: Clone
+    uses: actions/checkout@v2
+
+  - name:  Config
+    run:   echo ::set-env name=MSBUILD_EXE::"$("/c/Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find MSBuild/**/Bin/MSBuild.exe)"
+    shell: bash
+
+  - name:  Build
+    run:   |
+           "$MSBUILD_EXE" Mappet.sln -p:Configuration=Release
+    shell: bash
+
+  - name: Artifact
+    uses: actions/upload-artifact@v1
+    with:
+     name: Mappet
+     path: bin/Release
