@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 
 // A tool for merging different map sections together. Combines elevations with objects and squares from different maps into one output map.
 namespace Mappet
@@ -52,27 +51,6 @@ namespace Mappet
 
     class Program
     {
-        static void ParseConfig()
-        {
-            var exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var configFile = Path.Combine(exeDir, "mappet.cfg");
-            if (!File.Exists(configFile))
-            {
-                Console.WriteLine("Unable to find mappet.cfg");
-                Environment.Exit(1);
-            }
-
-            /*List<string> lines;
-            try
-            {
-            
-            }
-            catch()
-            {
-            
-            }*/
-        }
-
         static void SaveMap(Map map, string file)
         {
             var lines = new List<string>();
@@ -302,14 +280,6 @@ namespace Mappet
                         elevation = op.dstElevation,
                         squareId = s.squareId
                     };
-
-                    //var existingSq = outputMap.squares.SingleOrDefault(x => x.squareId == s.squareId && x.elevation == op.dstElevation);
-                    //if(existingSq != null)
-                    //{
-                    //    Console.WriteLine($"Existing square with id {s.squareId} at elevation {op.dstElevation} already exists, overwriting with square from {srcMapName}.");
-                    //    existingSq.data = sq.data;
-                    //}
-                    //else 
                     outputMap.squares.Add(sq);
                 }
 
